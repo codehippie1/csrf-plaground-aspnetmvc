@@ -96,6 +96,9 @@
             dataType: "json",
             headers: {
                 '__RequestVerificationToken': '@GetAntiForgeryTokens()'
+            },
+            success: function (data) {
+                alert(`Success - returned: ${data}`);
             }
         });
     }
@@ -109,6 +112,9 @@
             dataType: "json",
             headers: {
                 '__RequestVerificationToken': getAntiForgeryToken()
+            },
+            success: function (data) {
+                alert(`Success - returned: ${data}`);
             }
         });
     }

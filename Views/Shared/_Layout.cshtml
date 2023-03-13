@@ -12,7 +12,14 @@
   	      let token = '@Html.AntiForgeryToken()';
   	      token = $(token).val();
           return token;
-	    }
+        }
+
+        // Commented out as once this is setup, a similar setup in other functions postData2() is not needed.
+        //$.ajaxSetup({
+        //    headers: {
+        //        '__RequestVerificationToken': getAntiForgeryToken()
+        //    }
+        //});
     </script>
 </head>
 <body>
