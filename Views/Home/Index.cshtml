@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@model CsrfPlayGround.Models.UserModel
+
+<script>
+    @functions{
+        public string GetAntiForgeryTokens()
+        {
+            string cookieToken, formToken;
+            AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return cookieToken + ":" + formToken;
+        }
+    }
+</script>
+
+<main>
+    <section class="row" aria-labelledby="aspnetTitle">
+        <h1 id="title">Html Form Example</h1>
+        <p class="lead">Comment out Html.AntiForgeryToken() and the below button will stop working.</p>
+
+        @using (Html.BeginForm("Transfer", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <table>
+                @*<tr>
+                        <td>Enter ID: </td>
+                        <td>@Html.DisplayFor(model => model.Id)</td>
+                    </tr>
+                    <tr>
+                        <td>Enter Name: </td>
+                        <td>@Html.DisplayFor(model => model.Name)</td>
+                    </tr>*@
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit Form" /></td>
+                </tr>
+            </table>
+        }
+    </section>
+
+    <section class="row" aria-labelledby="aspnetTitle">
+        <h1 id="title">AJAX Example</h1>
+        <p class="lead">Comment out Html.AntiForgeryToken() and the below button will stop working.</p>
+
+        <table>
+            <tr>
+                <td colspan="2"><input type="button" onclick="postData()" value="Submit AJAX Data" /></td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="row" aria-labelledby="aspnetTitle">
+        <h1 id="title">AJAX With Custom Attribute Example</h1>
+        <p class="lead">We use getAntiForgeryToken() function on Layout and ValidateHeaderAntiForgeryToken custom attribute for this one.</p>
+
+        <table>
+            <tr>
+                <td colspan="2"><input type="button" onclick="postData2()" value="Submit AJAX Data" /></td>
+            </tr>
+        </table>
+    </section>
+
+    @*<div class="row">
+            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
+                <h2 id="gettingStartedTitle">Getting started</h2>
+                <p>
+                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+                    enables a clean separation of concerns and gives you full control over markup
+                    for enjoyable, agile development.
+                </p>
+                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+            </section>
+            <section class="col-md-4" aria-labelledby="librariesTitle">
+                <h2 id="librariesTitle">Get more libraries</h2>
+                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+            </section>
+            <section class="col-md-4" aria-labelledby="hostingTitle">
+                <h2 id="hostingTitle">Web Hosting</h2>
+                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+            </section>
+        </div>*@
+</main>
+
+<script>
+
+    // Notice - We are calling Manage() here
+    function postData() {
+        $.ajax("https://localhost:44330/Account/Manage", {
+            type: "post",
+            contentType: "application/json",
+            data: {  }, // JSON data
+            dataType: "json",
+            headers: {
+                '__RequestVerificationToken': '@GetAntiForgeryTokens()'
+            }
+        });
+    }
+
+    // Notice - We are calling Manage2() here
+    function postData2() {
+        $.ajax("https://localhost:44330/Account/Manage2", {
+            type: "post",
+            contentType: "application/json",
+            data: {  }, // JSON data
+            dataType: "json",
+            headers: {
+                '__RequestVerificationToken': getAntiForgeryToken()
+            }
+        });
+    }
+</script>
